@@ -19,7 +19,7 @@ def get_dynamic_content(link):
     html = driver.page_source
     soup = get_soup_object(html)
     #REMOVELATER: Check the HTML for testing purpose
-    print soup.prettify()
+    logging.debug(soup.prettify())
 
 link = "https://www.dnainfo.com/chicago/2017-chicago-murders"
 
