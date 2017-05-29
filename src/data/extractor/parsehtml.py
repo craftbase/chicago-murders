@@ -37,9 +37,11 @@ def parsedata(soup):
         neighbourhood = victim.find("div", {"class": "neighborhood"}).contents[1].strip()
         time = victim.find("span", {"class": "murder_time"}).get_text().strip()
         addr = victim.find("div", {"class": "address"}).contents[2].strip()
-        print "Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + time + " Address " + addr
+        print "Date "+date+" Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + time + " Address " + addr
 
 
-link = "https://www.dnainfo.com/chicago/2017-chicago-murders/timeline?mon=1"
-
-get_dynamic_content(link)
+for month in range(1,13):
+    link = "https://www.dnainfo.com/chicago/2017-chicago-murders/timeline?mon={}".format(month)
+    print "Data for month: {}".format(str(month))
+    get_dynamic_content(link)
+    print "Finish printing data for month: {}".format(str(month))
