@@ -40,6 +40,6 @@ def parsedata(soup):
         print "Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + time + " Address " + addr
 
 
-link = "https://www.dnainfo.com/chicago/2017-chicago-murders"
+link = "https://www.dnainfo.com/chicago/2017-chicago-murders/timeline?mon=1"
 
 get_dynamic_content(link)
