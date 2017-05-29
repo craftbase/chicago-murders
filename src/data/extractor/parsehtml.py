@@ -18,7 +18,7 @@ def get_dynamic_content(link):
     driver.get(link)
     html = driver.page_source
     soup = get_soup_object(html)
-    #REMOVELATER: Check the HTML for testing purpose
+    #Dump the page source to log for debugging purpose, this will work only if level is set to 10 in line number 5
     logging.debug(soup.prettify())
 
 link = "https://www.dnainfo.com/chicago/2017-chicago-murders"
