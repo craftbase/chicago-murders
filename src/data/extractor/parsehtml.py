@@ -29,18 +29,40 @@ def get_dynamic_content(link):
 def parsedata(soup):
     victims = soup.find_all("div", {"class": "homicide"})
     for victim in victims:
-        date = victim.find("div", {"class": "date"}).get_text().strip()
-        name = victim.find("h2", {"class": "name"}).get_text().strip()
-        age = victim.find("div", {"class": "age"}).contents[1].strip()
-        race = victim.find("div", {"class": "race"}).contents[1].strip()
-        cause = victim.find("div", {"class": "cause"}).contents[1].strip()
-        neighbourhood = victim.find("div", {"class": "neighborhood"}).contents[1].strip()
-        # time = victim.find("span", {"class": "murder_time"}).get_text().strip()
-        if victim.find("span", {"class": "murder_time"}):
+        # Set default values as NA for each victim
+        date = name = age = race = cause = neighbourhood = time = addr = "NA"
+        try:
+            date = victim.find("div", {"class": "date"}).get_text().strip()
+        except Exception as exp:
+            pass
+        try:
+            name = victim.find("h2", {"class": "name"}).get_text().strip()
+        except Exception as exp:
+            pass
+        try:
+            age = victim.find("div", {"class": "age"}).contents[1].strip()
+        except Exception as exp:
+            pass
+        try:
+            race = victim.find("div", {"class": "race"}).contents[1].strip()
+        except Exception as exp:
+            pass
+        try:
+            cause = victim.find("div", {"class": "cause"}).contents[1].strip()
+        except Exception as exp:
+            pass
+        try:
+            neighbourhood = victim.find("div", {"class": "neighborhood"}).contents[1].strip()
+        except Exception as exp:
+            pass
+        try:
             time = victim.find("span", {"class": "murder_time"}).get_text().strip()
-        else:
-            time = "NA"
-        addr = victim.find("div", {"class": "address"}).contents[2].strip()
+        except Exception as exp:
+            pass
+        try:
+            addr = victim.find("div", {"class": "address"}).contents[2].strip()
+        except Exception as exp:
+            pass
         print "Date " + date + " Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + time + " Address " + addr
 
 
