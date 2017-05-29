@@ -35,18 +35,16 @@ def parsedata(soup):
         race = victim.find("div", {"class": "race"}).contents[1].strip()
         cause = victim.find("div", {"class": "cause"}).contents[1].strip()
         neighbourhood = victim.find("div", {"class": "neighborhood"}).contents[1].strip()
-        #time = victim.find("span", {"class": "murder_time"}).get_text().strip()
+        # time = victim.find("span", {"class": "murder_time"}).get_text().strip()
         if victim.find("span", {"class": "murder_time"}):
             time = victim.find("span", {"class": "murder_time"}).get_text().strip()
         else:
             time = "NA"
         addr = victim.find("div", {"class": "address"}).contents[2].strip()
-        print "Date "+date+" Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + time + " Address " + addr
+        print "Date " + date + " Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + time + " Address " + addr
 
-for year in range(2012,2018):
-    link = "https://www.dnainfo.com/chicago/{}-chicago-murders/".format(str(year))
-    for month in range(1,13):
-        link += "timeline?mon={}".format(month)
-        print "Data for year: {} and month: {}".format(str(year),str(month))
+
+for year in range(2012, 2018):
+    for month in range(1, 13):
+        link = "https://www.dnainfo.com/chicago/{}-chicago-murders/timeline?mon={}".format(str(year), str(month))
         get_dynamic_content(link)
-        print "Finish printing data for month: {}".format(str(month))
