@@ -1,4 +1,3 @@
-import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
@@ -6,8 +5,7 @@ import logging
 logging.basicConfig(filename='scrape.log',level=20)
 logging.info('Initialized logger')
 
-def getBeautifulSoupObject(link):
-    html = requests.get(link)
+def getBeautifulSoupObject(html):
     return BeautifulSoup(html)
 
 def getDynamicContent(link):
@@ -18,8 +16,10 @@ def getDynamicContent(link):
         logging.fatal("Webdriver exception: {exception}".format(exception=exp))
         raise exp
     driver.get(link)
-    #REMOVELATER: test if we are able to get the title
-    print driver.title
+    html = driver.page_source
+    soup = getBeautifulSoupObject(html)
+    #REMOVELATER: Check the HTML for testing purpose
+    print soup.prettify()
 
 link = "https://www.dnainfo.com/chicago/2017-chicago-murders"
 
