@@ -20,6 +20,10 @@ def get_dynamic_content(link):
     soup = get_soup_object(html)
     #Dump the page source to log for debugging purpose, this will work only if level is set to 10 in line number 5
     logging.debug(soup.prettify())
+    parsedata(soup)
+
+def parsedata(soup):
+    pass
 
 link = "https://www.dnainfo.com/chicago/2017-chicago-murders"
 
