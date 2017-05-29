@@ -5,10 +5,10 @@ import logging
 logging.basicConfig(filename='scrape.log',level=20)
 logging.info('Initialized logger')
 
-def getBeautifulSoupObject(html):
+def get_soup_object(html):
     return BeautifulSoup(html)
 
-def getDynamicContent(link):
+def get_dynamic_content(link):
     try:
         driver = webdriver.PhantomJS()
         logging.info("Webdriver initiated {0}".format(driver))
@@ -17,10 +17,10 @@ def getDynamicContent(link):
         raise exp
     driver.get(link)
     html = driver.page_source
-    soup = getBeautifulSoupObject(html)
+    soup = get_soup_object(html)
     #REMOVELATER: Check the HTML for testing purpose
     print soup.prettify()
 
 link = "https://www.dnainfo.com/chicago/2017-chicago-murders"
 
-getDynamicContent(link)
+get_dynamic_content(link)
