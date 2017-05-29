@@ -35,7 +35,11 @@ def parsedata(soup):
         race = victim.find("div", {"class": "race"}).contents[1].strip()
         cause = victim.find("div", {"class": "cause"}).contents[1].strip()
         neighbourhood = victim.find("div", {"class": "neighborhood"}).contents[1].strip()
-        time = victim.find("span", {"class": "murder_time"}).get_text().strip()
+        #time = victim.find("span", {"class": "murder_time"}).get_text().strip()
+        if victim.find("span", {"class": "murder_time"}):
+            time = victim.find("span", {"class": "murder_time"}).get_text().strip()
+        else:
+            time = "NA"
         addr = victim.find("div", {"class": "address"}).contents[2].strip()
         print "Date "+date+" Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + time + " Address " + addr
 
