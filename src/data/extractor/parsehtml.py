@@ -9,6 +9,7 @@ import datetime
 logging.basicConfig(filename='scrape.log', level=20)
 logging.info('Initialized logger')
 
+CSV_FILE = "victim_info_2012_2017.csv"
 
 def get_soup_object(html):
     return BeautifulSoup(html)
