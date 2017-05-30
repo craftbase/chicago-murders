@@ -1,6 +1,6 @@
 import logging
 import os
-
+from dateutil.parser import parse
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -92,14 +92,21 @@ def parsedata(soup):
         print "Date " + date + " Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + murder_time + " Address " + addr
 
 
-for year in range(2012, 2018):
-    for month in range(1, 13):
-        link = "https://www.dnainfo.com/chicago/{}-chicago-murders/timeline?mon={}".format(str(year), str(month))
-        get_dynamic_content(link)
 
+
+
+def get_data():
+    for year in range(2012, 2018):
+        for month in range(1, 13):
+            link = "https://www.dnainfo.com/chicago/{}-chicago-murders/timeline?mon={}".format(str(year), str(month))
+            get_dynamic_content(link)
 
 def get_last_entry_date():
     df = pd.read_csv("victim_info_2012_2018.csv")
     total_rows = len(df.index)
     date = df['date'].values[total_rows-1]
-    print date
+    date_str = parse(date)
+    date_str = date_str.strftime('%Y%m%d')
+    return date_str
+
+#print get_last_entry_date()
