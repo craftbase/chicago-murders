@@ -80,9 +80,10 @@ def parsedata(soup):
 
         # if file does not exist write header
         if not os.path.isfile('victim_info_2012_2018.csv'):
-            victim_info_df.to_csv('victim_info_2012_2018.csv', header=True)
+            victim_info_df.to_csv('victim_info_2012_2018.csv', header=True, encoding='utf-8')
         else:  # else it exists so append without writing the header
-            victim_info_df.to_csv('victim_info_2012_2018.csv', mode='a', header=False)
+            victim_info_df.to_csv('victim_info_2012_2018.csv', mode='a', header=False, encoding='utf-8')
+
         print "Date " + date + " Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + murder_time + " Address " + addr
 
 
