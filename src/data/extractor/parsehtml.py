@@ -23,7 +23,7 @@ def get_dynamic_content(link):
         raise exp
 
     driver.get(link)
-    r = requests.get("url")
+    r = requests.get(link)
     if r.status_code != 200:
         raise Exception("Status code is not 200. Exiting!")
     html = driver.page_source
