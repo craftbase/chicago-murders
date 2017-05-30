@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-
+import datetime
 logging.basicConfig(filename='scrape.log', level=20)
 logging.info('Initialized logger')
 
@@ -95,18 +95,46 @@ def parsedata(soup):
 
 
 
-def get_data():
+def get_all_data():
     for year in range(2012, 2018):
         for month in range(1, 13):
             link = "https://www.dnainfo.com/chicago/{}-chicago-murders/timeline?mon={}".format(str(year), str(month))
             get_dynamic_content(link)
 
 def get_last_entry_date():
-    df = pd.read_csv("victim_info_2012_2018.csv")
+    df = pd.read_csv("victim_info_2012_2017.csv")
     total_rows = len(df.index)
     date = df['date'].values[total_rows-1]
     date_str = parse(date)
     date_str = date_str.strftime('%Y%m%d')
     return date_str
 
+def update_data():
+    last_date = get_last_entry_date()
+    print "Last updated entry was on {}".format(last_date)
+    entry_year = int(last_date[:4])
+    entry_month = int(last_date[4:6])
+    current_date = datetime.date.today()
+    current_month = int(current_date.month)
+    current_year = int(current_date.year)
+
+    for year in range(entry_year, current_year + 1):
+        for month in range(1, 13):
+            if year == entry_year and month <= entry_month:
+                continue
+            link = "https://www.dnainfo.com/chicago/{}-chicago-murders/timeline?mon={}".format(str(year), str(month))
+            get_dynamic_content(link)
+
+
+
+def get_data():
+    if not os.path.isfile('victim_info_2012_2017.csv'):
+        print "CSV file not found. Creating CSV file and appending data to it"
+        get_all_data()
+    else:
+        print "CSV file found."
+        update_data()
+
+
+get_data()
 #print get_last_entry_date()
