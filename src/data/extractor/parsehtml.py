@@ -2,6 +2,7 @@ import logging
 import os
 
 import pandas as pd
+import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
@@ -20,7 +21,11 @@ def get_dynamic_content(link):
     except Exception as exp:
         logging.fatal("Webdriver exception: {exception}".format(exception=exp))
         raise exp
+
     driver.get(link)
+    r = requests.get("url")
+    if r.status_code != 200:
+        raise Exception("Status code is not 200. Exiting!")
     html = driver.page_source
     soup = get_soup_object(html)
     # Dump the page source to log for debugging purpose, this will work only if level is set to 10 in line number 5
