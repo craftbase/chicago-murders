@@ -1,5 +1,7 @@
 import logging
+import os
 
+import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
@@ -30,7 +32,7 @@ def parsedata(soup):
     victims = soup.find_all("div", {"class": "homicide"})
     for victim in victims:
         # Set default values as NA for each victim
-        date = name = age = race = cause = neighbourhood = time = addr = "NA"
+        date = name = age = race = cause = neighbourhood = murder_time = addr = "NA"
         try:
             date = victim.find("div", {"class": "date"}).get_text().strip()
         except Exception as exp:
@@ -56,14 +58,32 @@ def parsedata(soup):
         except Exception as exp:
             pass
         try:
-            time = victim.find("span", {"class": "murder_time"}).get_text().strip()
+            murder_time = victim.find("span", {"class": "murder_time"}).get_text().strip()
         except Exception as exp:
             pass
         try:
             addr = victim.find("div", {"class": "address"}).contents[2].strip()
         except Exception as exp:
             pass
-        print "Date " + date + " Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + time + " Address " + addr
+
+        victim_info = {'name': name,
+                       'date': date,
+                       'age': age,
+                       'race': race,
+                       'cause': cause,
+                       'neighbourhood': neighbourhood,
+                       'time': murder_time,
+                       'address': addr
+                       }
+
+        victim_info_df = pd.DataFrame(victim_info, index=[0])
+
+        # if file does not exist write header
+        if not os.path.isfile('victim_info_2012_2018.csv'):
+            victim_info_df.to_csv('victim_info_2012_2018.csv', header=True)
+        else:  # else it exists so append without writing the header
+            victim_info_df.to_csv('victim_info_2012_2018.csv', mode='a', header=False)
+        print "Date " + date + " Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + murder_time + " Address " + addr
 
 
 for year in range(2012, 2018):
