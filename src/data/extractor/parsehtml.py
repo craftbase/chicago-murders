@@ -1,15 +1,17 @@
+import datetime
 import logging
 import os
-from dateutil.parser import parse
-import pandas as pd
 import requests
+import pandas as pd
 from bs4 import BeautifulSoup
+from dateutil.parser import parse
 from selenium import webdriver
-import datetime
+
 logging.basicConfig(filename='scrape.log', level=20)
 logging.info('Initialized logger')
 
 CSV_FILE = "victim_info_2012_2017.csv"
+
 
 def get_soup_object(html):
     return BeautifulSoup(html)
@@ -85,15 +87,12 @@ def parsedata(soup):
         victim_info_df = pd.DataFrame(victim_info, index=[0])
 
         # if file does not exist write header
-        if not os.path.isfile('victim_info_2012_2017.csv'):
-            victim_info_df.to_csv('victim_info_2012_2017.csv', header=True, encoding='utf-8')
+        if not os.path.isfile(CSV_FILE):
+            victim_info_df.to_csv(CSV_FILE, header=True, encoding='utf-8')
         else:  # else it exists so append without writing the header
-            victim_info_df.to_csv('victim_info_2012_2017.csv', mode='a', header=False, encoding='utf-8')
+            victim_info_df.to_csv(CSV_FILE, mode='a', header=False, encoding='utf-8')
 
         print "Date " + date + " Name " + name + " Age " + age + " Race " + race + " Cause " + cause + " Neigbourhood " + neighbourhood + " Time " + murder_time + " Address " + addr
-
-
-
 
 
 def get_all_data():
@@ -102,13 +101,15 @@ def get_all_data():
             link = "https://www.dnainfo.com/chicago/{}-chicago-murders/timeline?mon={}".format(str(year), str(month))
             get_dynamic_content(link)
 
+
 def get_last_entry_date():
-    df = pd.read_csv("victim_info_2012_2017.csv")
+    df = pd.read_csv(CSV_FILE)
     total_rows = len(df.index)
-    date = df['date'].values[total_rows-1]
+    date = df['date'].values[total_rows - 1]
     date_str = parse(date)
     date_str = date_str.strftime('%Y%m%d')
     return date_str
+
 
 def update_data():
     last_date = get_last_entry_date()
@@ -127,9 +128,8 @@ def update_data():
             get_dynamic_content(link)
 
 
-
 def get_data():
-    if not os.path.isfile('victim_info_2012_2017.csv'):
+    if not os.path.isfile(CSV_FILE):
         print "CSV file not found. Creating CSV file and appending data to it"
         get_all_data()
     else:
@@ -138,4 +138,4 @@ def get_data():
 
 
 get_data()
-#print get_last_entry_date()
+# print get_last_entry_date()
