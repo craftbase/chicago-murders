@@ -21,7 +21,12 @@ def plot_murder_by_date(df):
     return
      
 def plot_murder_by_time(df):
-    return
+
+    time = df['time'].value_counts()
+    print time
+    time.plot(kind='bar')
+    plt.show()
+
 
 
 def plot_murder_by_race(df):
@@ -31,6 +36,5 @@ def plot_murder_by_race(df):
     race.plot(kind='bar')
     #plt.hist(data, normed=True, bins = ['Black','Hispanic','Other','White'])
     plt.show()
-    print race
 
-plot_murder_by_race(df)
+plot_murder_by_time(df)
