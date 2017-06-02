@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 # This is necessary to show lots of columns in pandas 0.12.
 # Not necessary in pandas 0.13.
 plt.interactive(False)
+plt.ylabel('Count')
+plt.xlabel('Time')
 pd.set_option('display.width', 5000)
 pd.set_option('display.max_columns', 60)
 
