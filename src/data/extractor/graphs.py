@@ -1,6 +1,4 @@
 
-
-
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -39,4 +37,12 @@ def plot_murder_by_race(df):
     #plt.hist(data, normed=True, bins = ['Black','Hispanic','Other','White'])
     plt.show()
 
-plot_murder_by_time(df)
+def plot_murder_by_type_race(df):
+
+    type = df['cause'].value_counts()
+    type.plot(kind='bar')
+    plt.show()
+
+
+
+plot_murder_by_type_race(df)
