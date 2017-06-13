@@ -43,6 +43,15 @@ def plot_murder_by_type_race(df):
     type.plot(kind='bar')
     plt.show()
 
+def plot_murder_by_neighbourhood(df):
+
+    type = df['neighbourhood'].value_counts()
+    type.plot(kind='bar')
+    plt.show()
+
+def plot_murder_by_date(df):
+    df = df.tail(100)
+    date = df.groupby['']
 
 
-plot_murder_by_type_race(df)
+plot_murder_by_race(df)
