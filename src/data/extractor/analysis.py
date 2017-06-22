@@ -14,15 +14,14 @@ def get_parameters(df):
     return age_race
 
 def remove_non_numeric_age(df):
-
-    mask = df['age'].str.contains("years")
-    non_numeric_age = df[mask]
-    df = df[df['age'].str.contains("year"),'age'].apply(extract_numeric_age)
-
+    df.dropna(axis=0,inplace=True)
+    df = df(df['age'].str.contains("year")).loc['age'].apply(extract_numeric_age)
+    return df
 
 def clean_data(df):
-    remove_non_numeric_age(df)
+    df = remove_non_numeric_age(df)
     df['age'].fillna(df['age'].median(),inplace=True)
+    df.head()
     return df
 
 def extract_numeric_age(string):
@@ -33,5 +32,5 @@ def extract_numeric_age(string):
 
 #new_df = clean_data(df)
 #print new_df['age'].describe()
-
+clean_data(df)
 #get_parameters(df)
