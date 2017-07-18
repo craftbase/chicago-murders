@@ -15,17 +15,20 @@ def get_parameters(df):
 
 def remove_non_numeric_age(df):
     df.dropna(axis=0,inplace=True)
-    df = df(df['age'].str.contains("year")).loc['age'].apply(extract_numeric_age)
+    #df = df(df['age'].str.contains("year")).loc['age'].apply(extract_numeric_age)
+    df = df['age'].apply(extract_numeric_age)
     return df
 
 def clean_data(df):
     df = remove_non_numeric_age(df)
-    df['age'].fillna(df['age'].median(),inplace=True)
+    #df['age'].fillna(df['age'].median(),inplace=True)
     df.head()
+    print df
     return df
 
 def extract_numeric_age(string):
     #for char in string:
+
     sub_strings = string.split()
 
     return sub_strings[0];
