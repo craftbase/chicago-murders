@@ -32,13 +32,14 @@ def extract_numeric_age(string):
     if has_string(string):
         sub_strings = string.split()
         string = sub_strings[0];
-    return string;
+    return int(string);
 
 def has_string(string):
     return bool(re.search(r'\D', string))
 
 #new_df = clean_data(df)
 #print new_df['age'].describe()
-clean_data(df)
 
-#get_parameters(df)
+df = clean_data(df)
+print type(df['age'][1])
+#get_parameters(df)[1]

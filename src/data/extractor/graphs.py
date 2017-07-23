@@ -3,6 +3,7 @@ import pandas as pd
 import analysis
 import seaborn as sns
 
+
 # Make the graphs a bit prettier, and bigger
 
 # This is necessary to show lots of columns in pandas 0.12.
@@ -53,8 +54,17 @@ def plot_murder_by_date(df):
     date = df.groupby['']
 
 
-def get_pair_plot(df):
+def get_dist_plot(df):
     df = analysis.clean_data(df)
-    sns.pairplot(df, hue="race")
+    print "plotting"
+    sns.distplot(df['age'])
+    plt.show()
 
-get_pair_plot(df)
+def get_count_plot(df):
+    df = analysis.clean_data(df)
+    print "plotting"
+    sns.countplot(x="age", hue="race", data=df)
+    plt.show()
+
+
+get_count_plot(df)
