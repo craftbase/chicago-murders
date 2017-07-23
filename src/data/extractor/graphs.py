@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import analysis
+import seaborn as sns
 
 # Make the graphs a bit prettier, and bigger
 
@@ -51,4 +53,8 @@ def plot_murder_by_date(df):
     date = df.groupby['']
 
 
-plot_murder_by_type_race(df)
+def get_pair_plot(df):
+    df = analysis.clean_data(df)
+    sns.pairplot(df, hue="race")
+
+get_pair_plot(df)
