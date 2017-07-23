@@ -22,6 +22,7 @@ def remove_non_numeric_age(df):
 
 def clean_data(df):
     df = remove_non_numeric_age(df)
+    df['time'] = df['time'].apply(scale_time)
     #df['age'].fillna(df['age'].median(),inplace=True)
     #df.head()
     #print df
@@ -34,6 +35,20 @@ def extract_numeric_age(string):
         string = sub_strings[0];
     return int(string);
 
+def scale_time(string):
+    scale_time = -100
+    sub_strings = string.split()
+    time = sub_strings[0]
+    am_pm = sub_strings[1]
+    hour = time.split(":")[0]
+    minute = time.split(":")[1]
+    hour = int(hour)
+    minute = int(minute)
+    if am_pm[0] == 'p' and hour != 12:
+        hour = 12 + hour
+    scaled_time = hour*60 + minute
+    return scaled_time
+
 def has_string(string):
     return bool(re.search(r'\D', string))
 
@@ -41,5 +56,7 @@ def has_string(string):
 #print new_df['age'].describe()
 
 df = clean_data(df)
-print type(df['age'][1])
+#print type(df['age'][1])
 #get_parameters(df)[1]
+string = "12:00 p.m."
+scale_time(string)
