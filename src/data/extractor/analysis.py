@@ -36,17 +36,18 @@ def extract_numeric_age(string):
     return int(string);
 
 def scale_time(string):
-    scale_time = -100
-    sub_strings = string.split()
-    time = sub_strings[0]
-    am_pm = sub_strings[1]
-    hour = time.split(":")[0]
-    minute = time.split(":")[1]
-    hour = int(hour)
-    minute = int(minute)
-    if am_pm[0] == 'p' and hour != 12:
-        hour = 12 + hour
-    scaled_time = hour*60 + minute
+    scaled_time = -100
+    if ":" in string:
+        sub_strings = string.split()
+        time = sub_strings[0]
+        am_pm = sub_strings[1]
+        hour = time.split(":")[0]
+        minute = time.split(":")[1]
+        hour = int(hour)
+        minute = int(minute)
+        if am_pm[0] == 'p' and hour != 12:
+            hour = 12 + hour
+        scaled_time = hour*60 + minute
     return scaled_time
 
 def has_string(string):
