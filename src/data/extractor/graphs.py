@@ -57,7 +57,7 @@ def plot_murder_by_date(df):
 def get_dist_plot(df):
     df = analysis.clean_data(df)
     print "plotting"
-    sns.distplot(df['age'])
+    sns.distplot(df['time'])
     plt.show()
 
 def get_count_plot(df):
@@ -67,4 +67,4 @@ def get_count_plot(df):
     plt.show()
 
 
-get_count_plot(df)
+get_dist_plot(df)
