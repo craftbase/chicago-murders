@@ -21,9 +21,11 @@ def remove_non_numeric_age(df):
     return df
 
 def clean_data(df):
+    df.drop(df.columns[0], axis=1,inplace=True)
     df.dropna(axis=0, inplace=True)
     df = remove_non_numeric_age(df)
     df['time'] = df['time'].apply(scale_time)
+    df['cause'] = df['cause'].apply(clean_cause)
     #df['age'].fillna(df['age'].median(),inplace=True)
     #df.head()
     #print df
@@ -68,7 +70,10 @@ def scale_time(string):
         print(am_pm)
     return scaled_time
 
-
+def clean_cause(string):
+    if string == "null" or string == "0":
+        string = "Shooting"
+    return string
 
 
 def has_string(string):
