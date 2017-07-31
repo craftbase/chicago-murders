@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import analysis
 import seaborn as sns
-
+import geopy
 
 # Make the graphs a bit prettier, and bigger
 

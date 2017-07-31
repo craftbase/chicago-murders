@@ -26,6 +26,8 @@ def clean_data(df):
     df = remove_non_numeric_age(df)
     df['time'] = df['time'].apply(scale_time)
     df['cause'] = df['cause'].apply(clean_cause)
+    df['month'] = df['date'].apply(extract_month)
+
     #df['age'].fillna(df['age'].median(),inplace=True)
     #df.head()
     #print df
@@ -79,6 +81,10 @@ def clean_cause(string):
 def has_string(string):
     return bool(re.search(r'\D', string))
 
+def extract_month(string):
+    sub_strings = string.split()
+    return sub_strings[0]
+
 #new_df = clean_data(df)
 #print new_df['age'].describe()
 
@@ -87,3 +93,4 @@ df = clean_data(df)
 #get_parameters(df)[1]
 string = "12:00 p.m."
 scale_time(string)
+print df.head()
