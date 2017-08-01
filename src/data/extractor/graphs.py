@@ -63,7 +63,7 @@ def get_dist_plot(df):
 def get_count_plot(df):
     df = analysis.clean_data(df)
     print "plotting"
-    sns.countplot(x="age", hue="race", data=df)
+    sns.countplot(x="month", hue="race", data=df)
     plt.show()
 
 def get_joint_plot(df):
@@ -78,4 +78,4 @@ def get_pair_plot(df):
     sns.pairplot(df,hue="cause")
     plt.show()
 
-get_pair_plot(df)
+get_count_plot(df)

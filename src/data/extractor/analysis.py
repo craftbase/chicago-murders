@@ -85,12 +85,24 @@ def extract_month(string):
     sub_strings = string.split()
     return sub_strings[0]
 
+def get_dummies(df):
+    df = get_cause_dummies(df)
+    df = get_race_dummies(df)
+    return df
+
+def get_cause_dummies(df):
+    df = pd.get_dummies(df, prefix='Cause_', columns=['cause'])
+    return df
+
+def get_race_dummies(df):
+    df = pd.get_dummies(df, prefix='Race_', columns=['race'])
+    return df
 #new_df = clean_data(df)
 #print new_df['age'].describe()
 
 df = clean_data(df)
+df = get_dummies(df)
 #print type(df['age'][1])
 #get_parameters(df)[1]
-string = "12:00 p.m."
-scale_time(string)
+
 print df.head()
