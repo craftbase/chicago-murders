@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-import analysis
+import preprocessing
 import seaborn as sns
 import geopy
 
@@ -55,25 +55,25 @@ def plot_murder_by_date(df):
 
 
 def get_dist_plot(df):
-    df = analysis.clean_data(df)
+    df = preprocessing.clean_data(df)
     print "plotting"
     sns.distplot(df['time'])
     plt.show()
 
 def get_count_plot(df):
-    df = analysis.clean_data(df)
+    df = preprocessing.clean_data(df)
     print "plotting"
     sns.countplot(x="month", hue="race", data=df)
     plt.show()
 
 def get_joint_plot(df):
-    df = analysis.clean_data(df)
+    df = preprocessing.clean_data(df)
     print "plotting"
     sns.jointplot(x="age", y="time", data=df)
     plt.show()
 
 def get_pair_plot(df):
-    df = analysis.clean_data(df)
+    df = preprocessing.clean_data(df)
     print "plotting"
     sns.pairplot(df,hue="cause")
     plt.show()

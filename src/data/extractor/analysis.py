@@ -1,108 +1,30 @@
-import datetime
-import logging
-import os
 import numpy as np
 import pandas as pd
-import re
-from bs4 import BeautifulSoup
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LogisticRegression
+import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+
 
 df = pd.read_csv("victim_info_2012_2017.csv")
 
-def get_parameters(df):
-    age_race = df[['race']].values
-    X = np.unique(age_race)
-    print X
-    return age_race
-
-def remove_non_numeric_age(df):
-
-    #df = df(df['age'].str.contains("year")).loc['age'].apply(extract_numeric_age)
-    df['age'] = df['age'].apply(extract_numeric_age)
-    return df
-
-def clean_data(df):
-    df.drop(df.columns[0], axis=1,inplace=True)
-    df.dropna(axis=0, inplace=True)
-    df = remove_non_numeric_age(df)
-    df['time'] = df['time'].apply(scale_time)
-    df['cause'] = df['cause'].apply(clean_cause)
-    df['month'] = df['date'].apply(extract_month)
-
-    #df['age'].fillna(df['age'].median(),inplace=True)
-    #df.head()
-    #print df
-    return df
-
-def extract_numeric_age(string):
-    #for char in string:
-    if has_string(string):
-        sub_strings = string.split()
-        string = sub_strings[0];
-    return int(string);
-
-def scale_time(string):
-    scaled_time = -100
-    am_pm = "something"
-    try:
-        if ":" in string:
-            sub_strings = string.split()
-            time = sub_strings[0]
-            if len(string)>5:
-                am_pm = sub_strings[1]
-            else:
-                am_pm = "a"
-
-            hour = time.split(":")[0]
-            minute = time.split(":")[1]
-            hour = int(hour)
-            minute = int(minute)
-            if am_pm[0] == 'p' and hour != 12:
-                hour = 12 + hour
-            scaled_time = hour*60 + minute
-        else:
-            sub_strings = string.split()
-            time = sub_strings[0]
-            am_pm = sub_strings[1]
-            hour = int(time)
-            if am_pm[0] == 'p' and hour != 12:
-                hour = 12 + hour
-            scaled_time = hour*60
-    except IndexError:
-        print(string)
-        print(am_pm)
-    return scaled_time
-
-def clean_cause(string):
-    if string == "null" or string == "0":
-        string = "Shooting"
-    return string
+def predict_logistic_regression(df):
+    df = preprocessing.clean_data(df)
+    df = preprocessing.get_dummies(df)
+    #get X variables
+    X = df[['age','time','Cause__Stabbing','Cause__Assault','Cause__Auto Crash','Cause__Other','Cause__Shooting','Cause__Strangulation']]
+    y = df['Race__White']
+    print "splitting test and training data"
+    X_train, X_test, y_train, y_test = train_test_split(X,y,random_state=101,test_size=0.3)
+    lr = LogisticRegression()
+    print "Fitting the training data into the linear regression model"
+    lr.fit(X_train,y_train)
+    print "Predicting values of test data"
+    predictions = lr.predict(X_test)
+    print "Printing classification report"
+    print(classification_report(y_test, predictions))
 
 
-def has_string(string):
-    return bool(re.search(r'\D', string))
-
-def extract_month(string):
-    sub_strings = string.split()
-    return sub_strings[0]
-
-def get_dummies(df):
-    df = get_cause_dummies(df)
-    df = get_race_dummies(df)
-    return df
-
-def get_cause_dummies(df):
-    df = pd.get_dummies(df, prefix='Cause_', columns=['cause'])
-    return df
-
-def get_race_dummies(df):
-    df = pd.get_dummies(df, prefix='Race_', columns=['race'])
-    return df
-#new_df = clean_data(df)
-#print new_df['age'].describe()
-
-df = clean_data(df)
-df = get_dummies(df)
-#print type(df['age'][1])
-#get_parameters(df)[1]
-
-print df.head()
+predict_logistic_regression(df)
