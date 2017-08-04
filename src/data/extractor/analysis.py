@@ -26,6 +26,7 @@ def predict_logistic_regression(df):
     predictions = lr.predict(X_test)
     print "Printing classification report"
     print(classification_report(y_test, predictions))
+    print(confusion_matrix(y_test, predictions))
 
 
 def predict_random_forest(df):
@@ -44,6 +45,7 @@ def predict_random_forest(df):
     predictions = rf.predict(X_test)
     print "Printing classification report"
     print(classification_report(y_test, predictions))
+    print(confusion_matrix(y_test, predictions))
 
 def predict_k_nearest_neighbours(df):
     df = preprocessing.clean_data(df)
