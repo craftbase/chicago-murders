@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import preprocessing
 import seaborn as sns
-import geopy
 
 # Make the graphs a bit prettier, and bigger
 
@@ -25,7 +24,7 @@ def plot_murder_by_date(df):
 
 def plot_murder_by_time(df):
     time = df['time'].value_counts()
-    print time
+    print (time)
     time.plot(kind='bar')
     plt.show()
 
@@ -56,25 +55,25 @@ def plot_murder_by_date(df):
 
 def get_dist_plot(df):
     df = preprocessing.clean_data(df)
-    print "plotting"
+    print("plotting")
     sns.distplot(df['time'])
     plt.show()
 
 def get_count_plot(df):
     df = preprocessing.clean_data(df)
-    print "plotting"
+    print("plotting")
     sns.countplot(x="month", hue="race", data=df)
     plt.show()
 
 def get_joint_plot(df):
     df = preprocessing.clean_data(df)
-    print "plotting"
+    print("plotting")
     sns.jointplot(x="age", y="time", data=df)
     plt.show()
 
 def get_pair_plot(df):
     df = preprocessing.clean_data(df)
-    print "plotting"
+    print ("plotting")
     sns.pairplot(df,hue="cause")
     plt.show()
 

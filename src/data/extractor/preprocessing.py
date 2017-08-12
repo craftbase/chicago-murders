@@ -12,7 +12,7 @@ df = pd.read_csv("victim_info_2012_2017.csv")
 def get_parameters(df):
     age_race = df[['race']].values
     X = np.unique(age_race)
-    print X
+    print (X)
     return age_race
 
 def remove_non_numeric_age(df):
@@ -106,4 +106,5 @@ df = get_dummies(df)
 #print type(df['age'][1])
 #get_parameters(df)[1]
 
-print df.head()
+
+print (df.head())
