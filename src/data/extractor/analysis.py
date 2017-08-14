@@ -65,4 +65,26 @@ def predict_k_nearest_neighbours(df):
     print(classification_report(y_test, predictions))
     print(confusion_matrix(y_test, predictions))
 
+def sigmoid(x):
+    return 1/(1+ np.exp(-x))
+
+def forward(X, W1, b1, W2, b2):
+    Z = sigmoid(X.dot(W1) + b1)
+    A = Z.dot(W2) + b2
+    expA = np.exp(A)
+    Y = expA / expA.sum(axis=1, keepdims=True)
+    return Y
+
+def classification_rate(Y, P):
+    n_correct = 0
+    n_total = 0
+    for i in xrange(len(Y)):
+        n_total += 1
+        if Y[i] == P[i]:
+            n_correct += 1
+    return float(n_correct) / n_total
+
+
+
+
 predict_k_nearest_neighbours(df)
