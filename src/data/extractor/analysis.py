@@ -5,7 +5,7 @@ sys.path.append("..")
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.linear_model import LogisticRegression
-from ..extractor import preprocessing
+import src.data.extractor.preprocessing as preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
