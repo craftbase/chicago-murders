@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import sys
+#sys.path.append("..")
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.linear_model import LogisticRegression
@@ -17,14 +19,14 @@ def predict_logistic_regression(df):
     #get X variables
     X = df[['age','time','Cause__Stabbing','Cause__Assault','Cause__Auto Crash','Cause__Other','Cause__Shooting','Cause__Strangulation']]
     y = df['Race__White']
-    print "splitting test and training data"
+    print ("splitting test and training data")
     X_train, X_test, y_train, y_test = train_test_split(X,y,random_state=101,test_size=0.3)
     lr = LogisticRegression()
-    print "Fitting the training data into the linear regression model"
+    print ("Fitting the training data into the linear regression model")
     lr.fit(X_train,y_train)
-    print "Predicting values of test data"
+    print ("Predicting values of test data")
     predictions = lr.predict(X_test)
-    print "Printing classification report"
+    print ("Printing classification report")
     print(classification_report(y_test, predictions))
     print(confusion_matrix(y_test, predictions))
 
@@ -36,14 +38,14 @@ def predict_random_forest(df):
     X = df[['age', 'time', 'Cause__Stabbing', 'Cause__Assault', 'Cause__Auto Crash', 'Cause__Other', 'Cause__Shooting',
             'Cause__Strangulation']]
     y = df['Race__White']
-    print "splitting test and training data"
+    print ("splitting test and training data")
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=101, test_size=0.3)
     rf = RandomForestClassifier(n_estimators=800)
-    print "Fitting the training data into the random forest"
+    print ("Fitting the training data into the random forest")
     rf.fit(X_train, y_train)
-    print "Predicting values of test data"
+    print ("Predicting values of test data")
     predictions = rf.predict(X_test)
-    print "Printing classification report"
+    print ("Printing classification report")
     print(classification_report(y_test, predictions))
     print(confusion_matrix(y_test, predictions))
 
@@ -54,14 +56,14 @@ def predict_k_nearest_neighbours(df):
     X = df[['age', 'time', 'Cause__Stabbing', 'Cause__Assault', 'Cause__Auto Crash', 'Cause__Other', 'Cause__Shooting',
             'Cause__Strangulation']]
     y = df['Race__White']
-    print "splitting test and training data"
+    print ("splitting test and training data")
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=101, test_size=0.3)
     knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(X_train, y_train)
-    print "Fitting the training data into k-nearest neighbour"
-    print "Predicting values of test data"
+    print ("Fitting the training data into k-nearest neighbour")
+    print ("Predicting values of test data")
     predictions = knn.predict(X_test)
-    print "Printing classification report"
+    print ("Printing classification report")
     print(classification_report(y_test, predictions))
     print(confusion_matrix(y_test, predictions))
 
@@ -78,13 +80,15 @@ def forward(X, W1, b1, W2, b2):
 def classification_rate(Y, P):
     n_correct = 0
     n_total = 0
-    for i in xrange(len(Y)):
+    for i in range(len(Y)):
         n_total += 1
         if Y[i] == P[i]:
             n_correct += 1
     return float(n_correct) / n_total
 
 def predict_using_neural_network(df):
+    df = preprocessing.clean_data(df)
+    df = preprocessing.get_dummies(df)
     X = df[['age', 'time', 'Cause__Stabbing', 'Cause__Assault', 'Cause__Auto Crash', 'Cause__Other', 'Cause__Shooting',
             'Cause__Strangulation']]
     y = df['Race__White']
@@ -98,8 +102,11 @@ def predict_using_neural_network(df):
     W2 = np.random.randn(M, K)
     b2 = np.random.randn(K)
 
-    Y = forward(X,W1,b1,W2,b2)
+    P = forward(X,W1,b1,W2,b2)
+    P = np.argmax(P, axis=1)
+
+    print (classification_rate(y,P))
 
 
 
-predict_k_nearest_neighbours(df)
+predict_using_neural_network(df)

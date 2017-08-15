@@ -101,10 +101,10 @@ def get_race_dummies(df):
 #new_df = clean_data(df)
 #print new_df['age'].describe()
 
-df = clean_data(df)
-df = get_dummies(df)
+#df = clean_data(df)
+#df = get_dummies(df)
 #print type(df['age'][1])
 #get_parameters(df)[1]
 
 
-print (df.head())
+#print (df.head())
