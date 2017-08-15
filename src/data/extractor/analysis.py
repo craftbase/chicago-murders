@@ -71,8 +71,8 @@ def sigmoid(x):
     return 1/(1+ np.exp(-x))
 
 def forward(X, W1, b1, W2, b2):
-    Z = sigmoid(X.dot(W1) + b1)
-    A = Z.dot(W2) + b2
+    Z = sigmoid(np.dot(X,W1) + b1)
+    A = np.dot(Z,W2) + b2
     expA = np.exp(A)
     Y = expA / expA.sum(axis=1, keepdims=True)
     return Y
@@ -102,7 +102,6 @@ def predict_using_neural_network(df):
     b1 = np.random.randn(M)
     W2 = np.random.randn(M, K)
     b2 = np.random.randn(K)
-
     P = forward(X,W1,b1,W2,b2)
     P = np.argmax(P, axis=1)
 
