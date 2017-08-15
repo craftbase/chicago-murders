@@ -1,11 +1,11 @@
 import numpy as np
 import pandas as pd
 import sys
-#sys.path.append("..")
+sys.path.append("..")
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.linear_model import LogisticRegression
-import preprocessing
+from ..extractor import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
@@ -92,6 +92,7 @@ def predict_using_neural_network(df):
     X = df[['age', 'time', 'Cause__Stabbing', 'Cause__Assault', 'Cause__Auto Crash', 'Cause__Other', 'Cause__Shooting',
             'Cause__Strangulation']]
     y = df['Race__White']
+    print ("converting to matrices")
     X = X.as_matrix
     y = y.as_matrix
     D = 8
