@@ -84,6 +84,21 @@ def classification_rate(Y, P):
             n_correct += 1
     return float(n_correct) / n_total
 
+def predict_using_neural_network(df):
+    X = df[['age', 'time', 'Cause__Stabbing', 'Cause__Assault', 'Cause__Auto Crash', 'Cause__Other', 'Cause__Shooting',
+            'Cause__Strangulation']]
+    y = df['Race__White']
+    X = X.as_matrix
+    y = y.as_matrix
+    D = 8
+    M = 8
+    K = 2
+    W1 = np.random.randn(D, M)
+    b1 = np.random.randn(M)
+    W2 = np.random.randn(M, K)
+    b2 = np.random.randn(K)
+
+    Y = forward(X,W1,b1,W2,b2)
 
 
 
