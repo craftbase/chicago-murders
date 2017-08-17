@@ -93,8 +93,9 @@ def predict_using_neural_network(df):
             'Cause__Strangulation']]
     y = df['Race__White']
     print ("converting to matrices")
-    X = X.as_matrix
-    y = y.as_matrix
+    X = X.values
+    y = y.values
+    print (type(X))
     D = 8
     M = 8
     K = 2
