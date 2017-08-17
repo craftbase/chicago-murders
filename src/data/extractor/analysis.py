@@ -86,6 +86,12 @@ def classification_rate(Y, P):
             n_correct += 1
     return float(n_correct) / n_total
 
+#methods for backpropagation
+def derivative_w2(Z, T, Y):
+    der = np.dot(Z.T,T - Y)
+
+    return der
+
 def predict_using_neural_network(df):
     df = preprocessing.clean_data(df)
     df = preprocessing.get_dummies(df)
