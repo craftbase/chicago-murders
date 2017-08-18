@@ -92,6 +92,26 @@ def derivative_w2(Z, T, Y):
 
     return der
 
+def derivative_w1(X, Z, T, Y, W2):
+
+    dZ = (T - Y).dot(W2.T) * Z * (1 - Z)
+    der1 = X.T.dot(dZ)
+
+    return der1
+
+
+def derivative_b2(T, Y):
+    return (T - Y).sum(axis=0)
+
+
+def derivative_b1(T, Y, W2, Z):
+    return ((T - Y).dot(W2.T) * Z * (1 - Z)).sum(axis=0)
+
+
+def cost(T, Y):
+    tot = T * np.log(Y)
+    return tot.sum()
+
 def predict_using_neural_network(df):
     df = preprocessing.clean_data(df)
     df = preprocessing.get_dummies(df)
