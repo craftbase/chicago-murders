@@ -10,6 +10,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
+import tensorflow as tf
 
 df = pd.read_csv("victim_info_2012_2017.csv")
 
@@ -185,6 +186,7 @@ def predict_using_neural_network(df):
 
     print (classification_rate(y,P))
 
-
+def predict_using_neural_network_tf(df):
+    pass
 
 predict_using_neural_network(df)
