@@ -112,6 +112,57 @@ def cost(T, Y):
     tot = T * np.log(Y)
     return tot.sum()
 
+def predict_using_backpropagation(df):
+
+    df = preprocessing.clean_data(df)
+    df = preprocessing.get_dummies(df)
+    X = df[['age', 'time', 'Cause__Stabbing', 'Cause__Assault', 'Cause__Auto Crash', 'Cause__Other', 'Cause__Shooting',
+            'Cause__Strangulation']]
+    y = df['Race__White']
+    print("converting to matrices")
+    X = X.values
+    y = y.values
+    print(type(X))
+
+    D = 8
+    M = 8
+    K = 2
+
+    N = len(y)
+    T = np.zeros((N, K))
+    for i in range(N):
+        T[i, y[i]] = 1
+
+    plt.scatter(X[:, 0], X[:, 1], c=y, s=100, alpha=0.5)
+    plt.show()
+
+    W1 = np.random.randn(D, M)
+    b1 = np.random.randn(M)
+    W2 = np.random.randn(M, K)
+    b2 = np.random.randn(K)
+
+    learning_rate = 1e-6
+    costs = []
+    for epoch in range(100000):
+        output, hidden = forward(X, W1, b1, W2, b2)
+        if epoch % 100 == 0:
+            c = cost(T, output)
+            P = np.argmax(output, axis=1)
+            r = classification_rate(y, P)
+            print ("cost:", c, "classification_rate:", r)
+            costs.append(c)
+
+        # this is gradient ASCENT, not DESCENT
+        # be comfortable with both!
+        # oldW2 = W2.copy()
+        W2 += learning_rate * derivative_w2(hidden, T, output)
+        b2 += learning_rate * derivative_b2(T, output)
+        W1 += learning_rate * derivative_w1(X, hidden, T, output, W2)
+        b1 += learning_rate * derivative_b1(T, output, W2, hidden)
+
+    plt.plot(costs)
+    plt.show()
+
 def predict_using_neural_network(df):
     df = preprocessing.clean_data(df)
     df = preprocessing.get_dummies(df)
