@@ -187,6 +187,18 @@ def predict_using_neural_network(df):
     print (classification_rate(y,P))
 
 def predict_using_neural_network_tf(df):
-    pass
+    numClasses = 2
+    hiddenUnits = 10
+    inputSize = 7
+
+    tf.reset_default_graph()
+    X = tf.placeholder(tf.float32, shape=[None, inputSize])
+    y = tf.placeholder(tf.float32, shape=[None, 2])
+
+    W1 = tf.Variable(tf.truncated_normal([inputSize, hiddenUnits], stddev=0.1))
+    B1 = tf.Variable(tf.constant(0.1), [hiddenUnits])
+    W2 = tf.Variable(tf.truncated_normal([hiddenUnits, numClasses], stddev=0.1))
+    B2 = tf.Variable(tf.constant(0.1), [numClasses])
+
 
 predict_using_neural_network(df)
