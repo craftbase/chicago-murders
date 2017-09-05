@@ -187,6 +187,16 @@ def predict_using_neural_network(df):
     print (classification_rate(y,P))
 
 def predict_using_neural_network_tf(df):
+    df = preprocessing.clean_data(df)
+    df = preprocessing.get_dummies(df)
+
+    X1 = df[['age', 'time', 'Cause__Stabbing', 'Cause__Assault', 'Cause__Auto Crash', 'Cause__Other', 'Cause__Shooting',
+            'Cause__Strangulation']]
+    y1 = df['Race__White']
+
+    X1 = X1.values
+    y1 = y1.values
+
     numClasses = 2
     hiddenUnits = 10
     inputSize = 8
@@ -209,6 +219,19 @@ def predict_using_neural_network_tf(df):
     opt = tf.train.GradientDescentOptimizer(learning_rate=.1).minimize(loss)
     correct_prediction = tf.equal(tf.argmax(finalOutput, 1), tf.argmax(y, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+
+    sess = tf.Session()
+    init = tf.global_variables_initializer()
+    sess.run(init)
+
+    for i in range(100):
+
+        batchInput = X1
+        batchLabels = y1
+        _, trainingLoss = sess.run([opt, loss], feed_dict={X: batchInput, y: batchLabels})
+        if i % 1000 == 0:
+            trainAccuracy = accuracy.eval(session=sess, feed_dict={X: batchInput, y: batchLabels})
+            print("step %d, training accuracy %g" % (i, trainAccuracy))
 
 
 predict_using_neural_network(df)
