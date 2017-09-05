@@ -234,4 +234,12 @@ def predict_using_neural_network_tf(df):
             print("step %d, training accuracy %g" % (i, trainAccuracy))
 
 
+def get_batch(data_x, data_y, batch_size=32):
+    batch_n = len(data_x) // batch_size
+    for i in range(batch_n):
+        batch_x = data_x[i * batch_size:(i + 1) * batch_size]
+        batch_y = data_y[i * batch_size:(i + 1) * batch_size]
+
+        yield batch_x, batch_y
+        
 predict_using_neural_network(df)
