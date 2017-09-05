@@ -189,7 +189,7 @@ def predict_using_neural_network(df):
 def predict_using_neural_network_tf(df):
     numClasses = 2
     hiddenUnits = 10
-    inputSize = 7
+    inputSize = 8
 
     tf.reset_default_graph()
     X = tf.placeholder(tf.float32, shape=[None, inputSize])
@@ -199,6 +199,16 @@ def predict_using_neural_network_tf(df):
     B1 = tf.Variable(tf.constant(0.1), [hiddenUnits])
     W2 = tf.Variable(tf.truncated_normal([hiddenUnits, numClasses], stddev=0.1))
     B2 = tf.Variable(tf.constant(0.1), [numClasses])
+
+    hiddenLayerOutput = tf.matmul(X, W1) + B1
+    hiddenLayerOutput = tf.nn.relu(hiddenLayerOutput)
+    finalOutput = tf.matmul(hiddenLayerOutput, W2) + B2
+    finalOutput = tf.nn.relu(finalOutput)
+
+    loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=finalOutput))
+    opt = tf.train.GradientDescentOptimizer(learning_rate=.1).minimize(loss)
+    correct_prediction = tf.equal(tf.argmax(finalOutput, 1), tf.argmax(y, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 
 
 predict_using_neural_network(df)
