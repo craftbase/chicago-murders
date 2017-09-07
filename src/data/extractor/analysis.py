@@ -226,8 +226,7 @@ def predict_using_neural_network_tf(df):
 
     for i in range(100):
 
-        batchInput = X1
-        batchLabels = y1
+        batchInput,batchLabels = get_batch(X1,y1)
         _, trainingLoss = sess.run([opt, loss], feed_dict={X: batchInput, y: batchLabels})
         if i % 1000 == 0:
             trainAccuracy = accuracy.eval(session=sess, feed_dict={X: batchInput, y: batchLabels})
@@ -241,5 +240,5 @@ def get_batch(data_x, data_y, batch_size=32):
         batch_y = data_y[i * batch_size:(i + 1) * batch_size]
 
         yield batch_x, batch_y
-        
+
 predict_using_neural_network(df)
