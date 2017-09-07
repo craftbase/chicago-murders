@@ -220,18 +220,17 @@ def predict_using_neural_network_tf(df):
     correct_prediction = tf.equal(tf.argmax(finalOutput, 1), tf.argmax(y, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 
-    sess = tf.Session()
-    init = tf.global_variables_initializer()
-    sess.run(init)
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+        iteration = 0
+        for e in range(100):
+            for batch_x, batch_y in get_batch(X1, y1, 32):
+                iteration += 1
+                feed = {X: X1,
+                        y: y1
+                        }
 
-    for i in range(100):
-
-        batchInput,batchLabels = get_batch(X1,y1)
-        _, trainingLoss = sess.run([opt, loss], feed_dict={X: batchInput, y: batchLabels})
-        if i % 1000 == 0:
-            trainAccuracy = accuracy.eval(session=sess, feed_dict={X: batchInput, y: batchLabels})
-            print("step %d, training accuracy %g" % (i, trainAccuracy))
-
+                train_loss, _, train_acc = sess.run([opt,loss,accuracy], feed_dict=feed)
 
 def get_batch(data_x, data_y, batch_size=32):
     batch_n = len(data_x) // batch_size
