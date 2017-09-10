@@ -202,23 +202,39 @@ def predict_using_neural_network_tf(df):
     inputSize = 8
 
     tf.reset_default_graph()
-    X = tf.placeholder(tf.float32, shape=[None, inputSize])
-    y = tf.placeholder(tf.float32, shape=[None, 2])
+    X = tf.placeholder(tf.float32, shape=[None, X1.shape[1]])
+    y = tf.placeholder(tf.float32, shape=[None, 1])
+    learning_rate = tf.placeholder(tf.float32)
+    is_training = tf.Variable(True, dtype=tf.bool)
 
-    W1 = tf.Variable(tf.truncated_normal([inputSize, hiddenUnits], stddev=0.1))
-    B1 = tf.Variable(tf.constant(0.1), [hiddenUnits])
-    W2 = tf.Variable(tf.truncated_normal([hiddenUnits, numClasses], stddev=0.1))
-    B2 = tf.Variable(tf.constant(0.1), [numClasses])
+    initializer = tf.contrib.layers.xavier_initializer()
+    fc = tf.layers.dense(X, hiddenUnits, activation=None, kernel_initializer=initializer)
+    fc = tf.layers.batch_normalization(fc, training=is_training)
+    fc = tf.nn.relu(fc)
 
-    hiddenLayerOutput = tf.matmul(X, W1) + B1
-    hiddenLayerOutput = tf.nn.relu(hiddenLayerOutput)
-    finalOutput = tf.matmul(hiddenLayerOutput, W2) + B2
-    finalOutput = tf.nn.relu(finalOutput)
+    #W1 = tf.Variable(tf.truncated_normal([inputSize, hiddenUnits], stddev=0.1))
+    #B1 = tf.Variable(tf.constant(0.1), [hiddenUnits])
+    #W2 = tf.Variable(tf.truncated_normal([hiddenUnits, numClasses], stddev=0.1))
+    #B2 = tf.Variable(tf.constant(0.1), [numClasses])
 
-    loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=finalOutput))
-    opt = tf.train.GradientDescentOptimizer(learning_rate=.1).minimize(loss)
-    correct_prediction = tf.equal(tf.argmax(finalOutput, 1), tf.argmax(y, 1))
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+    #hiddenLayerOutput = tf.matmul(X, W1) + B1
+    #hiddenLayerOutput = tf.nn.relu(hiddenLayerOutput)
+    #finalOutput = tf.matmul(hiddenLayerOutput, W2) + B2
+    #finalOutput = tf.nn.relu(finalOutput)
+
+    logits = tf.layers.dense(fc, 1, activation=None)
+    cross_entropy = tf.nn.sigmoid_cross_entropy_with_logits(labels=X, logits=logits)
+    cost = tf.reduce_mean(cross_entropy)
+    optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+
+    predicted = tf.nn.sigmoid(logits)
+    correct_pred = tf.equal(tf.round(predicted), X)
+    accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+
+    #loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=finalOutput))
+    #opt = tf.train.GradientDescentOptimizer(learning_rate=.1).minimize(loss)
+    #correct_prediction = tf.equal(tf.argmax(finalOutput, 1), tf.argmax(y, 1))
+    #accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
@@ -230,7 +246,7 @@ def predict_using_neural_network_tf(df):
                         y: y1
                         }
 
-                train_loss, _, train_acc = sess.run([opt,loss,accuracy], feed_dict=feed)
+                train_loss, _, train_acc = sess.run([cost,optimizer,accuracy], feed_dict=feed)
 
 def get_batch(data_x, data_y, batch_size=32):
     batch_n = len(data_x) // batch_size
@@ -240,4 +256,4 @@ def get_batch(data_x, data_y, batch_size=32):
 
         yield batch_x, batch_y
 
-predict_using_neural_network(df)
+predict_using_neural_network_tf(df)
