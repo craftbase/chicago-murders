@@ -201,6 +201,7 @@ def predict_using_neural_network_tf(df):
     hiddenUnits = 10
     inputSize = 8
 
+    print(X1.shape[1])
     tf.reset_default_graph()
     X = tf.placeholder(tf.float32, shape=[None, X1.shape[1]])
     y = tf.placeholder(tf.float32, shape=[None, 1])
@@ -223,7 +224,7 @@ def predict_using_neural_network_tf(df):
     #finalOutput = tf.nn.relu(finalOutput)
 
     logits = tf.layers.dense(fc, 1, activation=None)
-    cross_entropy = tf.nn.sigmoid_cross_entropy_with_logits(labels=X, logits=logits)
+    cross_entropy = tf.nn.sigmoid_cross_entropy_with_logits(labels=y, logits=logits)
     cost = tf.reduce_mean(cross_entropy)
     optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
