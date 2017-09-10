@@ -243,8 +243,8 @@ def predict_using_neural_network_tf(df):
         for e in range(100):
             for batch_x, batch_y in get_batch(X1, y1, 32):
                 iteration += 1
-                feed = {X: X1,
-                        y: y1
+                feed = {X: batch_x,
+                        y: batch_y
                         }
 
                 train_loss, _, train_acc = sess.run([cost,optimizer,accuracy], feed_dict=feed)
