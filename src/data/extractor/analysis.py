@@ -198,7 +198,7 @@ def predict_using_neural_network_tf(df):
     y1 = y1.values
 
     numClasses = 2
-    hiddenUnits = 10
+    hiddenUnits = 14
     inputSize = 8
 
     print(X1.shape[1])
